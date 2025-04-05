@@ -1,18 +1,17 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/utils/app_colors.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
+import 'package:task_manager/ui/widgets/tm_app_bar.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class UpdateProfileScreen extends StatefulWidget {
+  const UpdateProfileScreen({super.key});
 
-  static const String name = '/sign-up-screen';
+  static const String name = '/update-profile';
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _firstNameTEController = TextEditingController();
   final TextEditingController _lastNameTEController = TextEditingController();
@@ -25,21 +24,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
+      appBar: TMAppBar(
+        fromeUpdateProfile: true,
+      ),
       body: ScreenBackground(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(36.0),
+            padding: const EdgeInsets.all(16.0),
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 80),
+                  const SizedBox(height: 32),
                   Text(
-                    'Join With Us',
+                    'Update Profile',
                     style: textTheme.titleLarge,
                   ),
                   const SizedBox(height: 24),
+                  _buildPhotoPicker(),
+                  const SizedBox(height: 8),
                   TextFormField(
                     controller: _emailTEController,
                     keyboardType: TextInputType.emailAddress,
@@ -85,10 +89,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     onPressed: () {},
                     child: Icon(Icons.arrow_forward),
                   ),
-                  const SizedBox(height: 48),
-                  Center(
-                    child: _buildSignInSection(),
-                  ),
                 ],
               ),
             ),
@@ -98,27 +98,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _buildSignInSection() {
-    return RichText(
-                      text: TextSpan(
-                        text: "Already have an account? ",
+  Widget _buildPhotoPicker() {
+    return Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 50,
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8),
+                            bottomLeft: Radius.circular(8),
+                          )),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Photo',
                         style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w300,
+                          color: Colors.white,
                         ),
-                          children: [
-                          TextSpan(
-                            text: 'Sign in',
-                            style: TextStyle(
-                              color: AppColors.themeColor,
-                            ),
-                            recognizer: TapGestureRecognizer()..onTap = () {
-                              Navigator.pop(context);
-                            }
-                          ),
-                        ],
                       ),
-                    );
+                    ),
+                    const SizedBox(width: 12),
+                    Text('No item selected', maxLines: 1),
+                  ],
+                ),
+              );
   }
 
   @override
